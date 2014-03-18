@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block body %}
+<a href='/'>Back</a>
 <h1>{{ story.title }}</h1>
 {% for line in story.lines %}
     <p>{{ line.1.term }}</p>
