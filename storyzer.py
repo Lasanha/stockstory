@@ -16,7 +16,7 @@ def searcher(term):
         result = json.load(result)
         try:
             url = result['responseData']['results'][0]['unescapedUrl']
-        else:
+        except:
             url = None
     return {'term': term, 'url': url}
 
