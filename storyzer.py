@@ -14,7 +14,10 @@ def searcher(term):
         url = URL_TEMPLATE.format(search_term.replace(' ', '%20'))
         result = fetcher.open(url)
         result = json.load(result)
-        url = result['responseData']['results'][0]['unescapedUrl']
+        try:
+            url = result['responseData']['results'][0]['unescapedUrl']
+        else:
+            url = None
     return {'term': term, 'url': url}
 
 
