@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% block body %}
+<h1>Stock Story</h1>
+<p>Create your illustrated story with stock photos. Just type it below, and we'll find images for lines starting with *.</p>
+    <form action="/" method=post>
+        <dl>
+            <dt>Title
+            <dd><input type=text name='title'>
+            <dt>Text:
+            <dd><textarea rows=10 cols=50 name='text'></textarea>
+            <dd><input type=submit value='Surprise!'>
+        </dl>
+    </form>
+    <h2>Recent Stories</h2>
+    {% for story in stories %}
+        <p><a href='/story/{{ story._id }}'>{{ story.title }}</a></p>
+    {% endfor %}
+{% endblock %}

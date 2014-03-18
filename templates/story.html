@@ -1,0 +1,10 @@
+{% extends 'base.html'%}
+{% block body %}
+<h1>{{ story.title }}</h1>
+{% for line in story.lines %}
+    <p>{{ line.1.term }}</p>
+    {% if line.1.url %}
+        <p><img width=400 src='{{ line.1.url }}'/></p>
+    {% endif %}
+{% endfor %}
+{% endblock %}
