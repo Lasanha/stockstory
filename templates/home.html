@@ -6,13 +6,11 @@
             <h1>Stock Story</h1>
         </div>
     </div>
-    <div class="row-fluid subheading">
-        <div class="span12">
-            <p class="lead">Create your illustrated story with stock photos. Just type it below, and we'll find images for lines starting with *.</p>
-        </div>
-    </div>
     <div class="row-fluid pitch">
-        <div class="span8 offset1">
+        <div class="span4">
+            <p class="lead">Create your illustrated story with stock photos. Just type it and we'll find images for lines starting with *.</p>
+        </div>
+        <div class="span4">
             <form action="/" method=post>
                 <dl>
                     <dt>Title
@@ -23,11 +21,13 @@
                 </dl>
             </form>
         </div>
-        <div class="span8 offset1">
-            <h2>Recent Stories</h2>
-            {% for story in stories %}
-                <p><a href='/story/{{ story._id }}'>{{ story.title }}</a></p>
-            {% endfor %}
+        <div class="span4">
+            <h3>Recent Stories</h3>
+            <ul>
+                {% for story in stories %}
+                    <li><p><a href='/story/{{ story._id }}'>{% if story.title %}{{ story.title }}{% else %}~no title~{% endif %}</a></p></li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
