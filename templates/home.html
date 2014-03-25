@@ -8,26 +8,26 @@
     </div>
     <div class="row-fluid pitch">
         <div class="span4">
-            <p class="lead">Create your illustrated story with stock photos. Just type it and we'll find images for lines starting with *.</p>
+            <p class="lead">{{ _("Create your illustrated story with stock photos. Just type it and we'll find images for lines starting with *") }}</p>
         </div>
         <div class="span4">
             <form action="/" method=post>
                 <dl>
-                    <dt>Title
+                    <dt>{{ _('Title') }}
                     <dd><input type=text name='title' required>
-                    <dt>Text:
+                    <dt>{{ _('Text') }}
                     <dd><textarea rows=10 cols=50 name='text' required></textarea>
-                    <dt>Author:
+                    <dt>{{ _('Author') }}
                     <dd><input type=text name='author'>
-                    <dd><input type=submit value='Surprise!'>
+                    <dd><input type=submit value='{{ _('Surprise!') }}'>
                 </dl>
             </form>
         </div>
         <div class="span4">
-            <h3>Recent Stories</h3>
+            <h3>{{ _('Recent Stories') }}</h3>
             <ul>
                 {% for story in stories %}
-                    <li><p><a href='/story/{{ story._id }}'>{% if story.title %}{{ story.title }}{% else %}~no title~{% endif %}</a></p></li>
+                    <li><p><a href='/{{ g.current_lang }}/story/{{ story._id }}'>{% if story.title %}{{ story.title }}{% else %}{{ _('~no title~') }}{% endif %}</a></p></li>
                 {% endfor %}
             </ul>
         </div>

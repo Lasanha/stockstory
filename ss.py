@@ -1,18 +1,37 @@
 import os
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for, g
 from flask.ext.pymongo import PyMongo
 import flask_pymongo
+from flask.ext.babel import Babel
 from storyzer import storyze, format_story
 from bson.objectid import ObjectId
 
 
 app = Flask(__name__)
 app.debug = True
+babel = Babel(app)
 app.config['MONGO_URI'] = os.environ.get('MONGOLAB_URI')
 mongo = PyMongo(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.before_request
+def before():
+    if request.view_args and 'lang_code' in request.view_args:
+        g.current_lang = request.view_args['lang_code']
+        request.view_args.pop('lang_code')
+
+
+@babel.localeselector
+def get_locale():
+    return g.get('current_lang', 'en')
+
+
+@app.route('/')
+def root():
+    return redirect(url_for('home', lang_code='en'))
+
+
+@app.route('/<lang_code>', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         # TODO: sanitize lines
@@ -23,14 +42,14 @@ def home():
     return render_template('home.html', stories=stories)
 
 
-@app.route('/story/<story_id>')
+@app.route('/<lang_code>/story/<story_id>')
 def story(story_id):
     story = mongo.db.stories.find_one({"_id":ObjectId(story_id)})
     story = format_story(story)
     return render_template('story.html', story=story)
 
 
-@app.route('/about')
+@app.route('/<lang_code>/about')
 def about():
     return render_template('about.html')
 
