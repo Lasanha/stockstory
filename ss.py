@@ -16,7 +16,7 @@ mongo = PyMongo(app)
 def home():
     if request.method == 'POST':
         # TODO: sanitize lines
-        story = storyze(request.form['title'], request.form['text'])
+        story = storyze(request.form['title'], request.form['text'], request.form['author'])
         story_id = mongo.db.stories.insert(story)
         return redirect('/story/' + str(story_id))
     stories = mongo.db.stories.find().sort("_id", flask_pymongo.DESCENDING)

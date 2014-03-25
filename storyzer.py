@@ -21,15 +21,22 @@ def searcher(term):
     return {'term': term, 'url': url}
 
 
-def storyze(title, text):
+def storyze(title, text, author):
     lines = text.split('\n')
     lines = dict([(str(line[0]), searcher(line[1])) for line in enumerate(lines)])
-    story = {'title': title, 'lines': lines}
+    story = {'title': title, 'lines': lines, 'author': author}
     return story
 
 
 def format_story(story):
     # ensure order
-    title = story['title']
+    try:
+        title = story['title']
+    except:
+        title = ''
+    try:
+        author = story['author']
+    except:
+        author = ''
     lines = [(k, story['lines'][k]) for k in sorted(story['lines'].iterkeys())]
-    return {'title': title, 'lines': lines}
+    return {'title': title, 'lines': lines, 'author': author}
