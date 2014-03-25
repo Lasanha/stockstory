@@ -28,7 +28,7 @@ def get_locale():
 
 @app.route('/')
 def root():
-    return redirect(url_for('home', lang_code='en'))
+    return redirect(url_for('home', lang_code='pt_br'))
 
 
 @app.route('/<lang_code>', methods=['GET', 'POST'])
