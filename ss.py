@@ -1,8 +1,8 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for, g
-from flask.ext.pymongo import PyMongo
+from flask_pymongo import PyMongo
 import flask_pymongo
-from flask.ext.babel import Babel
+from flask_babel import Babel
 from storyzer import storyze, format_story
 from bson.objectid import ObjectId
 

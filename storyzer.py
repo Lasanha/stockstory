@@ -1,5 +1,5 @@
 # coding: utf-8
-import urllib2
+from urllib.request import build_opener
 import json
 
 URL_TEMPLATE = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q={0}&start=0"
@@ -10,7 +10,7 @@ def searcher(term):
     else:
         term = term[1:]
         search_term = ' '.join(['stock photo', term[:-1]])
-        fetcher = urllib2.build_opener()
+        fetcher = build_opener()
         url = URL_TEMPLATE.format(search_term.replace(' ', '%20'))
         result = fetcher.open(url)
         result = json.load(result)
@@ -38,5 +38,5 @@ def format_story(story):
         author = story['author']
     except:
         author = ''
-    lines = [(k, story['lines'][k]) for k in sorted(story['lines'].iterkeys())]
+    lines = [(k, story['lines'][k]) for k in sorted(story['lines'].keys())]
     return {'title': title, 'lines': lines, 'author': author}
