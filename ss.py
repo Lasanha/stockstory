@@ -11,6 +11,8 @@ app = Flask(__name__)
 app.debug = True
 babel = Babel(app)
 app.config['MONGO_URI'] = os.environ.get('MONGOLAB_URI')
+app.config['GSE_API_KEY'] = os.environ.get('GSE_API_KEY')
+app.config['GSE_CX_ID'] = os.environ.get('GSE_CX_ID')
 mongo = PyMongo(app)
 
 
@@ -35,8 +37,8 @@ def root():
 def home():
     if request.method == 'POST':
         # TODO: sanitize lines
-        story = storyze(request.form['title'], request.form['text'], request.form['author'])
-        story_id = mongo.db.stories.insert(story)
+        st = storyze(request.form['title'], request.form['text'], request.form['author'])
+        story_id = mongo.db.stories.insert(st)
         return redirect(get_locale() + '/story/' + str(story_id))
     stories = mongo.db.stories.find().sort("_id", flask_pymongo.DESCENDING)[:15]
     return render_template('home.html', stories=stories)
@@ -44,9 +46,9 @@ def home():
 
 @app.route('/<lang_code>/story/<story_id>')
 def story(story_id):
-    story = mongo.db.stories.find_one({"_id":ObjectId(story_id)})
-    story = format_story(story)
-    return render_template('story.html', story=story)
+    st = mongo.db.stories.find_one({"_id": ObjectId(story_id)})
+    st = format_story(st)
+    return render_template('story.html', story=st)
 
 
 @app.route('/<lang_code>/about')

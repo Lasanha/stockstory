@@ -1,23 +1,25 @@
-# coding: utf-8
-from urllib.request import build_opener
-import json
+from flask import current_app
 
-URL_TEMPLATE = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q={0}&start=0"
+import requests
+
+GOOGLE_API_URL = "https://www.googleapis.com/customsearch/v1"
+
 
 def searcher(term):
     if not term.startswith('*'):
         url = None
     else:
         term = term[1:]
-        search_term = ' '.join(['stock photo', term[:-1]])
-        fetcher = build_opener()
-        url = URL_TEMPLATE.format(search_term.replace(' ', '%20'))
-        result = fetcher.open(url)
-        result = json.load(result)
-        try:
-            url = result['responseData']['results'][0]['unescapedUrl']
-        except:
-            url = None
+        search_terms = {
+            'start': 1,
+            'num': 1,
+            'q': ' '.join(['stock photo', term[:-1]]),
+            'cx': current_app.config['GSE_CX_ID'],
+            'key': current_app.config['GSE_API_KEY'],
+            'searchType': 'image'
+        }
+        result = requests.get(GOOGLE_API_URL, params=search_terms).json()
+        url = result['items'][0]['link']
     return {'term': term, 'url': url}
 
 
